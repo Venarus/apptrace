@@ -1,0 +1,30 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code files (normalize to LF in git, checkout native)
+*.cs text diff=csharp eol=crlf
+*.xaml text diff=xml eol=crlf
+*.xml text diff=xml eol=crlf
+*.csproj text diff=xml eol=crlf
+*.slnx text eol=crlf
+*.json text eol=crlf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Windows scripts (must use CRLF)
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.dll binary
+*.exe binary
+*.pdb binary
+*.so binary
+*.dylib binary

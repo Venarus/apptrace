@@ -1,0 +1,52 @@
+## Visual Studio / .NET Build Artifacts
+[Bb]in/
+[Oo]bj/
+publish/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio temporary files & caches
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.userprefs
+*.dbmdl
+*.jfm
+
+# JetBrains Rider & Resharper
+.idea/
+*.DotSettings.user
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Windows temporary & thumbnail files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Local databases & testing artifacts
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Packaging & NuGet
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+packages/
+
+# Core dumps & crash reports
+*.dmp
+*.crash
