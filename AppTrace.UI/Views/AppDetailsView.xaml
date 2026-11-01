@@ -1,0 +1,196 @@
+<UserControl x:Class="AppTrace.UI.Views.AppDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AppTrace.UI.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:AppDetailsViewModel}"
+             FontFamily="{StaticResource FluentFont}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="32,24,32,32">
+
+            <!-- Back Navigation Bar -->
+            <Button Style="{StaticResource SecondaryButton}" 
+                    Command="{Binding BackCommand}" 
+                    Content="{Binding Loc[Details_Back]}" 
+                    Height="32" Padding="12,0,12,0" 
+                    HorizontalAlignment="Left" Margin="0,0,0,16" />
+
+            <!-- Hero Header Card -->
+            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,20" Padding="24">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Icon -->
+                    <Border Grid.Column="0" Width="64" Height="64" Background="#203B82F6" CornerRadius="14" Margin="0,0,20,0">
+                        <Grid>
+                            <Image Source="{Binding App.IconSource}" Width="48" Height="48" RenderOptions.BitmapScalingMode="HighQuality"
+                                   Visibility="{Binding App.IconSource, Converter={StaticResource NullOrEmptyToVis}}" />
+                            <TextBlock Text="📦" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Visibility="{Binding App.IconSource, Converter={StaticResource NullOrEmptyToVis}, ConverterParameter='Inverse'}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Title & Core Info -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock Text="{Binding App.DisplayName}" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,10,0" />
+                            <Border Background="#203B82F6" CornerRadius="6" Padding="8,2,8,2" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding App.Category}" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" />
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding App.Publisher}" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,12,0" />
+                            <TextBlock Text="•" FontSize="14" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,12,0" />
+                            <TextBlock Text="{Binding App.DisplayVersion, StringFormat='Version {0}'}" FontSize="14" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,12,0" />
+                            <TextBlock Text="•" FontSize="14" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,12,0" />
+                            <TextBlock Text="{Binding App.FormattedInstallDate, StringFormat='Installed: {0}'}" FontSize="14" Foreground="{StaticResource TextTertiaryBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Top Action Buttons -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource SecondaryButton}" Command="{Binding LaunchAppCommand}" Content="{Binding Loc[Apps_Launch]}" Margin="0,0,8,0" />
+                        <Button Style="{StaticResource SecondaryButton}" Command="{Binding ScanLeftoversCommand}" Content="{Binding Loc[Apps_ScanLeftovers]}" Margin="0,0,8,0" />
+                        <Button Style="{StaticResource DangerButton}" Command="{Binding StartUninstallCommand}" Content="{Binding Loc[Apps_Uninstall]}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Metadata Cards Grid -->
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Card 1: Storage Size -->
+                <Border Grid.Column="0" Style="{StaticResource GlassCard}">
+                    <StackPanel>
+                        <TextBlock Text="Disk Usage" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Text="{Binding App.FormattedSize}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,8,0,4" />
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="4" Padding="6,2,6,2" 
+                                    Background="{Binding App.SizeConfidence, Converter={StaticResource SizeConfidenceToColor}}" Margin="0,0,8,0">
+                                <TextBlock Text="{Binding App.SizeConfidence, StringFormat='{}{0} Size'}" FontSize="10" FontWeight="Bold" Foreground="#FFFFFF" />
+                            </Border>
+                            <TextBlock Text="Accurate calculation" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 2: Install Source -->
+                <Border Grid.Column="2" Style="{StaticResource GlassCard}">
+                    <StackPanel>
+                        <TextBlock Text="Package Source" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Text="{Binding App.InstallSource}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,8,0,4" />
+                        <TextBlock Text="Registered Windows package type" FontSize="12" Foreground="{StaticResource TextTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 3: Startup Registration -->
+                <Border Grid.Column="4" Style="{StaticResource GlassCard}">
+                    <StackPanel>
+                        <TextBlock Text="Startup Status" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Text="{Binding App.StartupStatus}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,8,0,4" />
+                        <TextBlock Text="Windows boot initialization" FontSize="12" Foreground="{StaticResource TextTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Technical Registry & Installation Details -->
+            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Installation Details" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,16" />
+
+                    <!-- Install Location -->
+                    <Grid Margin="0,0,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Install Directory:" FontWeight="Medium" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Grid.Column="1" Text="{Binding App.InstallLocation, FallbackValue='Not specified in registry'}" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" />
+                        <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" Height="28" FontSize="11" 
+                                Command="{Binding OpenInstallFolderCommand}" IsEnabled="{Binding HasInstallFolder}" Content="Open Folder 📁" />
+                    </Grid>
+
+                    <!-- Registry Key Path -->
+                    <Grid Margin="0,0,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Registry Location:" FontWeight="Medium" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Grid.Column="1" Text="{Binding App.RegistryKeyPath, FallbackValue='Unknown'}" Foreground="{StaticResource TextPrimaryBrush}" FontFamily="Consolas" FontSize="12" TextWrapping="Wrap" />
+                    </Grid>
+
+                    <!-- Uninstall Command -->
+                    <Grid Margin="0,0,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Uninstall Command:" FontWeight="Medium" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Grid.Column="1" Text="{Binding App.UninstallString, FallbackValue='Not registered'}" Foreground="{StaticResource TextPrimaryBrush}" FontFamily="Consolas" FontSize="12" TextWrapping="Wrap" />
+                    </Grid>
+
+                    <!-- Publisher URL -->
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Support / Publisher:" FontWeight="Medium" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Grid.Column="1" Text="{Binding App.UrlInfoAbout, FallbackValue='None'}" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" />
+                        <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" Height="28" FontSize="11" 
+                                Command="{Binding OpenWebsiteCommand}" IsEnabled="{Binding HasWebsite}" Content="Visit Website 🌐" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Related Directories Section -->
+            <Border Style="{StaticResource GlassCard}">
+                <StackPanel>
+                    <TextBlock Text="Associated Application Folders" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,8" />
+                    <TextBlock Text="Discovered configuration, cache, and data directories associated with this software:" 
+                               FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,16" />
+
+                    <ItemsControl ItemsSource="{Binding RelatedFolders}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="0,0,0,1" Padding="0,8,0,8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="📁 " FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                        <TextBlock Grid.Column="1" Text="{Binding}" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                        <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" Height="26" FontSize="11"
+                                                Command="{Binding DataContext.OpenFolderByPathCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}" Content="Explore" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="AppTrace.Core/AppTrace.Core.csproj" />
+  <Project Path="AppTrace.Tests/AppTrace.Tests.csproj" />
+  <Project Path="AppTrace.UI/AppTrace.UI.csproj" />
+</Solution>

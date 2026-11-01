@@ -1,0 +1,33 @@
+<UserControl x:Class="AppTrace.UI.Dialogs.MessageConfirmDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AppTrace.UI.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+             FontFamily="{StaticResource FluentFont}">
+
+    <!-- Translucent Dim Backdrop -->
+    <Grid Background="{StaticResource ModalOverlayBrush}">
+        <Border Width="480" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                Style="{StaticResource GlassCard}" Background="#E61A2230" BorderBrush="{StaticResource AccentBrush}" Padding="28">
+            <StackPanel>
+
+                <!-- Title -->
+                <TextBlock Text="{Binding ConfirmDialogTitle}" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,12" />
+
+                <!-- Message Text -->
+                <TextBlock Text="{Binding ConfirmDialogMessage}" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" LineHeight="20" Margin="0,0,0,24" />
+
+                <!-- Actions -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource SecondaryButton}" Command="{Binding ConfirmDialogCancelCommand}" Content="Cancel" Margin="0,0,10,0" Width="90" />
+                    <Button Style="{StaticResource PrimaryButton}" Command="{Binding ConfirmDialogApproveCommand}" 
+                            Content="{Binding ConfirmDialogActionButtonText}" Width="130" />
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
